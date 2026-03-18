@@ -1,0 +1,86 @@
+/* style.css */
+
+/* 1. TAILWIND RESET (This makes it "Attractive") */
+*, ::before, ::after {
+    box-sizing: border-box;
+    border-width: 0;
+    border-style: solid;
+    border-color: #e5e7eb;
+}
+
+html {
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+body {
+    margin: 0;
+    line-height: inherit;
+}
+
+/* 2. LAYOUT & BACKGROUND */
+.bg-black { background-color: #000; }
+.text-white { color: #fff; }
+.min-h-screen { min-height: 100vh; }
+.flex { display: flex; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.p-6 { padding: 1.5rem; }
+
+/* 3. THE GLASS CARD */
+.glass {
+    background: rgba(17, 24, 39, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.border { border-width: 1px; }
+.border-gray-800 { border-color: #1f2937; }
+.w-full { width: 100%; }
+.max-w-md { max-width: 28rem; }
+.p-8 { padding: 2rem; }
+.rounded-3xl { border-radius: 1.5rem; }
+.shadow-2xl { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
+
+/* 4. TYPOGRAPHY */
+.text-center { text-align: center; }
+.mb-8 { margin-bottom: 2rem; }
+.text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+.font-bold { font-weight: 700; }
+.text-indigo-500 { color: #6366f1; }
+.text-gray-400 { color: #9ca3af; }
+.mt-2 { margin-top: 0.5rem; }
+.text-sm { font-size: 0.875rem; }
+.hover\:underline:hover { text-decoration: underline; }
+
+/* 5. FORM ELEMENTS */
+.space-y-4 > :not([hidden]) ~ :not([hidden]) {
+    margin-top: 1rem;
+}
+
+input, select {
+    background-color: #1f2937;
+    border: 1px solid #374151;
+    color: #fff;
+    width: 100%;
+    height: 3rem;
+    padding: 0 1.5rem;
+    border-radius: 9999px;
+    outline: 2px solid transparent;
+    appearance: none; /* Removes default browser styling */
+}
+
+input:focus {
+    border-color: #6366f1;
+}
+
+/* 6. BUTTONS */
+.bg-indigo-600 { background-color: #4f46e5; }
+.hover\:bg-indigo-500:hover { background-color: #6366f1; }
+.transition { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+.mt-4 { margin-top: 1rem; }
+.cursor-pointer { cursor: pointer; }
+
+/* 7. UTILITIES */
+.hidden { display: none; }

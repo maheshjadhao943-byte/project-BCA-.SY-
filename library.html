@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Connect Gard | Library</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), 
+                        url('background.png') no-repeat center center fixed;
+            background-size: cover;
+        }
+        .sidebar { 
+            width: 260px; height: 100vh; position: fixed; 
+            background: rgba(17, 24, 39, 0.95); backdrop-filter: blur(10px);
+            border-right: 1px solid #1f2937; 
+        }
+        .main-content { margin-left: 260px; padding: 40px; }
+        .resource-card { 
+            background: rgba(31, 41, 55, 0.6); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: 0.3s transition;
+        }
+        .resource-card:hover { transform: scale(1.02); border-color: #6366f1; }
+        .badge { background: #6366f1; padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; }
+    </style>
+</head>
+<body class="text-white">
+
+    <nav class="sidebar p-6 flex flex-col justify-between">
+        <div>
+            <div class="flex items-center gap-3 mb-10">
+                <img src="logo.png" alt="Logo" class="w-10 h-10 object-contain">
+                <h2 class="font-bold text-xl tracking-tight text-indigo-400">Connect Gard</h2>
+            </div>
+            <ul class="space-y-4 text-gray-400">
+                <li onclick="window.location.href='home.html'" class="hover:text-white cursor-pointer flex items-center gap-3 p-3"><span>🏠</span> Home</li>
+                <li onclick="window.location.href='blocker.html'" class="hover:text-white cursor-pointer flex items-center gap-3 p-3"><span>🚫</span> Block Apps</li>
+                <li onclick="window.location.href='schedule.html'" class="hover:text-white cursor-pointer flex items-center gap-3 p-3"><span>📅</span> Schedule</li>
+                <li class="hover:text-white cursor-pointer flex items-center gap-3 bg-indigo-600/20 p-3 rounded-xl text-indigo-400 font-bold"><span>📚</span> Lectures & Books</li>
+                <li onclick="window.location.href='solutions.html'" class="hover:text-white cursor-pointer flex items-center gap-3 p-3"><span>🚀</span> Career Solutions</li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <header class="mb-10">
+            <h1 class="text-3xl font-bold">Recommended Resources 📚</h1>
+            <p id="userWelcome" class="text-gray-400 mt-2">Loading your personalized library...</p>
+        </header>
+
+        <div class="flex gap-4 mb-8">
+            <button class="bg-indigo-600 px-6 py-2 rounded-full text-sm font-bold">All</button> 
+            <button class="bg-gray-800 px-6 py-2 rounded-full text-sm font-bold hover:bg-gray-700">Lectures</button>
+            <button class="bg-gray-800 px-6 py-2 rounded-full text-sm font-bold hover:bg-gray-700">Books</button>
+        </div>
+
+        <div id="libraryGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                    <a href="https://www.khanacademy.org" target="_blank" class="p-4 glass rounded-xl border border-white/10">Khan Academy ↗</a>
+                    <a href="https://www.w3schools.com" target="_blank" class="p-4 glass rounded-xl border border-white/10">W3Schools ↗</a>
+                </div> 
+    </main>
+
+    <script>
+        const libraryData = {
+            school: [
+                { title: "NCERT Mathematics", type: "Book", info: "Complete Class 1-10 Guide" },
+                { title: "Science Explained", type: "Lecture", info: "Foundation Concepts" },
+                { title: "Grammar Pro", type: "Book", info: "English Mastery" }
+            ],
+            college: [
+                { title: "Data Structures & Algorithms", type: "Lecture", info: "Core CS Engineering" },
+                { title: "Business Management", type: "Book", info: "BBA/MBA Essentials" },
+                { title: "Advanced Calculus", type: "Lecture", info: "B.Tech Specialization" }
+            ],
+            competitive: [
+                { title: "Quantitative Aptitude", type: "Book", info: "RS Aggarwal Edition" },
+                { title: "Current Affairs 2026", type: "Lecture", info: "Weekly Analysis" },
+                { title: "Logical Reasoning", type: "Book", info: "Practice Sets" }
+            ]
+        };
+
+        window.onload = () => {
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            const welcomeText = document.getElementById('userWelcome');
+            const grid = document.getElementById('libraryGrid');
+
+            if (user) {
+                welcomeText.innerText = `Tailored materials for your ${user.edu} path.`;
+                
+                // Fetch materials based on education
+                const materials = libraryData[user.edu] || libraryData.school;
+
+                materials.forEach(item => {
+                    const card = `
+                        <div class="resource-card p-6 rounded-2xl">
+                            <span class="badge mb-3 inline-block">${item.type}</span>
+                            <h3 class="text-xl font-bold mb-2">${item.title}</h3>
+                            <p class="text-gray-400 text-sm mb-4">${item.info}</p>
+                            <button class="text-indigo-400 font-bold hover:underline flex items-center gap-2">
+                                Open Resource <span>→</span>
+                            </button>
+                        </div>
+                    `;
+                    grid.innerHTML += card;
+                });
+            } else {
+                welcomeText.innerText = "Please login to see your resources.";
+            }
+        }
+    </script>
+</body>
+</html>

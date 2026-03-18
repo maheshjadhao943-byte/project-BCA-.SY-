@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Connect Gard | Block Apps</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), 
+                        url('home-bg.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        .sidebar { 
+            width: 260px; height: 100vh; position: fixed; 
+            background: rgba(17, 24, 39, 0.95); backdrop-filter: blur(10px);
+            border-right: 1px solid #1f2937; 
+        }
+        .main-content { margin-left: 260px; padding: 40px; }
+        .app-card { 
+            background: rgba(31, 41, 55, 0.6); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: 0.3s;
+        }
+        .app-card:hover { border-color: #6366f1; }
+        
+        /* Toggle Switch Styling */
+        .switch { position: relative; display: inline-block; width: 50px; height: 24px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #374151; transition: .4s; border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px;
+            background-color: white; transition: .4s; border-radius: 50%;
+        }
+        input:checked + .slider { background-color: #6366f1; }
+        input:checked + .slider:before { transform: translateX(26px); }
+    </style>
+</head>
+<body class="text-white">
+
+    <nav class="sidebar p-6 flex flex-col justify-between">
+        <div>
+            <div class="flex items-center gap-3 mb-10">
+                <img src="logo.png" alt="Logo" class="w-10 h-10 object-contain">
+                <h2 class="font-bold text-xl tracking-tight">Connect Gard</h2>
+            </div>
+            <ul class="space-y-4 text-gray-400">
+                <li onclick="window.location.href='home.html'" class="hover:text-white cursor-pointer flex items-center gap-3 p-3"><span>🏠</span> Home</li>
+                <li class="hover:text-white cursor-pointer flex items-center gap-3 bg-indigo-600/20 p-3 rounded-xl text-indigo-400 font-bold"><span>🚫</span> Block Apps</li>
+                <li class="hover:text-white cursor-pointer flex items-center gap-3 p-3"><span>⏱️</span> Stopwatch</li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <header class="mb-10">
+            <h1 class="text-3xl font-bold">App Blocker 🚫</h1>
+            <p class="text-gray-400 mt-2">Select the apps you want to restrict during your study session.</p>
+        </header>
+
+        <div id="statusBanner" class="mb-8 p-4 bg-gray-800/50 border border-gray-700 rounded-2xl flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div id="statusDot" class="w-3 h-3 bg-gray-500 rounded-full"></div>
+                <span id="statusText" class="font-medium text-gray-300">Blocker is Inactive</span>
+            </div>
+            <button onclick="toggleMasterBlock()" id="masterBtn" class="bg-indigo-600 hover:bg-indigo-500 px-6 py-2 rounded-full font-bold transition">Start Focus Mode</button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="app-card p-5 rounded-2xl flex justify-between items-center">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-pink-600 rounded-xl flex items-center justify-center text-2xl">📸</div>
+                    <div>
+                        <h3 class="font-bold">Instagram</h3>
+                        <p class="text-xs text-gray-400">socialmedia.com</p>
+                    </div>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" class="app-toggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="app-card p-5 rounded-2xl flex justify-between items-center">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-red-600 rounded-xl flex items-center justify-center text-2xl">📺</div>
+                    <div>
+                        <h3 class="font-bold">YouTube</h3>
+                        <p class="text-xs text-gray-400">entertainment.com</p>
+                    </div>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" class="app-toggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="app-card p-5 rounded-2xl flex justify-between items-center">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-blue-700 rounded-xl flex items-center justify-center text-2xl">👥</div>
+                    <div>
+                        <h3 class="font-bold">Facebook</h3>
+                        <p class="text-xs text-gray-400">socialmedia.com</p>
+                    </div>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" class="app-toggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let isBlocking = false;
+
+        function toggleMasterBlock() {
+            isBlocking = !isBlocking;
+            const btn = document.getElementById('masterBtn');
+            const statusText = document.getElementById('statusText');
+            const statusDot = document.getElementById('statusDot');
+            const toggles = document.querySelectorAll('.app-toggle');
+
+            if (isBlocking) {
+                btn.innerText = "Stop Focus Mode";
+                btn.classList.replace('bg-indigo-600', 'bg-red-600');
+                statusText.innerText = "Focus Mode Active - Apps Restricted";
+                statusText.classList.replace('text-gray-300', 'text-indigo-400');
+                statusDot.classList.replace('bg-gray-500', 'bg-indigo-500');
+                
+                // Logic: In a real extension/app, this would trigger the block
+                alert("Focus Mode Started! Selected social media sites will be blocked.");
+            } else {
+                btn.innerText = "Start Focus Mode";
+                btn.classList.replace('bg-red-600', 'bg-indigo-600');
+                statusText.innerText = "Blocker is Inactive";
+                statusText.classList.replace('text-indigo-400', 'text-gray-300');
+                statusDot.classList.replace('bg-indigo-500', 'bg-gray-500');
+            }
+        }
+    </script>
+</body>
+</html>

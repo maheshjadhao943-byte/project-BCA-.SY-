@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Connect Gard | Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+       body {
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), 
+                        url('background.png') no-repeat center center fixed;
+            background-size: cover;
+        } 
+        .sidebar { width: 260px; height: 100vh; position: fixed; border-right: 1px solid rgba(255,255,255,0.1); }
+        .main-content { margin-left: 260px; padding: 40px; }
+        .feature-card:hover { transform: translateY(-5px); transition: 0.3s; border-color: #6366f1; }
+    </style>
+</head>
+<body class="bg-black text-white">
+
+    <nav class="sidebar p-6 flex flex-col justify-between bg-black/50 backdrop-blur-lg">
+        <div>
+            <div class="flex items-center gap-3 mb-10">
+                <img src="logo.png" alt="Logo" class="w-10 h-10 object-contain">
+                <h2 class="font-bold text-xl tracking-tight text-indigo-400">Connect Gard</h2>
+            </div>
+            
+            <ul class="space-y-4 text-gray-400">
+                <li onclick="window.location.href='home.html'" class="hover:text-white cursor-pointer flex items-center gap-3 bg-indigo-600/20 p-3 rounded-xl text-white font-bold border border-indigo-500/30">
+                    <span>🏠</span> Home
+                </li>
+                <li onclick="window.location.href='blocker.html'" class="hover:text-white cursor-pointer flex items-center gap-3 p-3 transition hover:bg-gray-800 rounded-xl">
+                    <span>🚫</span> Block Social Apps
+                </li>
+                <li onclick="window.location.href='stopwatch.html'" class="hover:text-white cursor-pointer flex items-center gap-3 p-3 transition hover:bg-gray-800 rounded-xl">
+                    <span>⏱️</span> Stopwatch
+                </li>
+                <li onclick="window.location.href='dailyschedule.html'" class="hover:text-white cursor-pointer flex items-center gap-3 p-3 transition hover:bg-gray-800 rounded-xl">
+                    <span>📅</span> Daily Schedule
+                </li>
+                <li onclick="window.location.href='library.html'" class="hover:text-white cursor-pointer flex items-center gap-3 p-3 transition hover:bg-gray-800 rounded-xl">
+                    <span>📚</span> Lectures & Books
+                </li>
+                <li onclick="window.location.href='solution.html'" class="hover:text-white cursor-pointer flex items-center gap-3 p-3 transition hover:bg-gray-800 rounded-xl">
+                    <span>🚀</span> Career Solutions
+                </li>
+            </ul>
+        </div>
+        
+        <button onclick="logout()" class="text-red-400 text-sm p-3 hover:bg-red-900/20 rounded-xl transition text-left flex items-center gap-2">
+            <span>🚪</span> Logout
+        </button>
+    </nav>
+
+    <main class="main-content">
+        <header class="mb-12">
+            <h1 class="text-4xl font-bold">Hello, <span id="displayUserName" class="text-indigo-500">Future Leader</span>! 🌟</h1>
+            <p class="text-gray-400 mt-2">"Your time is limited, don't waste it living someone else's life."</p>
+        </header>
+
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            <div class="bg-gradient-to-br from-indigo-900/40 to-black p-8 rounded-3xl border border-indigo-500/30 flex flex-col justify-center backdrop-blur-sm">
+                <h2 class="text-2xl font-bold mb-4">Master Your Focus</h2>
+                <p class="text-gray-300 leading-relaxed">
+                    Connect Gard isn't just an app; it's your personal mentor. We help you silence the noise of social media so you can listen to your own potential.
+                </p>
+                <button onclick="window.location.href='blocker.html'" class="mt-6 bg-white text-black font-bold py-2 px-6 rounded-full w-fit hover:bg-indigo-500 hover:text-white transition">Get Started</button>
+            </div>
+            <div class="rounded-3xl overflow-hidden h-64 shadow-2xl border border-gray-800">
+                <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=800&q=80" alt="Motivation" class="w-full h-full object-cover">
+            </div>
+        </section>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div onclick="window.location.href='blocker.html'" class="bg-gray-900/50 p-6 rounded-2xl border border-gray-800 feature-card cursor-pointer">
+                <p class="text-indigo-400 font-bold mb-2">01. Block Distractions</p>
+                <p class="text-sm text-gray-400">One-click social media blocking to keep your flow state unbroken.</p>
+            </div>
+            <div onclick="window.location.href='stopwatch.html'" class="bg-gray-900/50 p-6 rounded-2xl border border-gray-800 feature-card cursor-pointer">
+                <p class="text-indigo-400 font-bold mb-2">02. Track Growth</p>
+                <p class="text-sm text-gray-400">Use our smart stopwatch to see exactly how much you learn every day.</p>
+            </div>
+            <div onclick="window.location.href='library.html'" class="bg-gray-900/50 p-6 rounded-2xl border border-gray-800 feature-card cursor-pointer">
+                <p class="text-indigo-400 font-bold mb-2">03. Smart Library</p>
+                <p class="text-sm text-gray-400">Tailored book and Lectures recommendations based on your education level.</p>
+            </div>
+            <div onclick="window.location.href='dailyschedule.html'" class="bg-gray-900/50 p-6 rounded-2xl border border-gray-800 feature-card cursor-pointer">
+                <p class="text-indigo-400 font-bold mb-2">04. daily schedule</p>
+                <p class="text-sm text-gray-400">A good schedule turns dreams into daily action .</p>
+            </div>
+             <div onclick="window.location.href='solution.html'" class="bg-gray-900/50 p-6 rounded-2xl border border-gray-800 feature-card cursor-pointer">
+                <p class="text-indigo-400 font-bold mb-2">05.solution  </p>
+                <p class="text-sm text-gray-400">A clear solution begins with clear thinking .</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Check Auth and Load User Name
+        window.onload = function() {
+            if(localStorage.getItem('isLoggedIn') !== 'true') {
+                window.location.href = 'login.html';
+            } else {
+                // Get name from the current user object
+                const user = JSON.parse(localStorage.getItem('currentUser'));
+                if(user && user.name) {
+                    document.getElementById('displayUserName').innerText = user.name;
+                }
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('currentUser');
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>

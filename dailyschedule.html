@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Connect Gard | Daily Schedule</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for the schedule interactivity */
+        .task-done { text-decoration: line-through; color: #4b5563 !important; opacity: 0.6; }
+        .time-input { background: transparent; border: none; color: #9ca3af; width: 100%; font-family: monospace; }
+        .task-input { background: transparent; border: none; color: #fff; width: 100%; outline: none; border-bottom: 1px solid transparent; }
+        .task-input:focus { border-bottom: 1px solid #6366f1; }
+        .delete-btn { color: #ef4444; cursor: pointer; opacity: 0; transition: 0.2s; }
+        .schedule-row:hover .delete-btn { opacity: 1; }
+    </style>
+</head>
+<body class="bg-black text-white">
+
+    <nav class="sidebar p-6 flex flex-col justify-between">
+        <div>
+            <div class="flex items-center gap-3 mb-10">
+                <img src="logo.png" alt="Logo" class="w-10 h-10 object-contain">
+                <h2 class="font-bold text-xl tracking-tight text-indigo-400">Connect Gard</h2>
+            </div>
+            <ul class="space-y-4 text-gray-400">
+                <li onclick="window.location.href='home.html'" class="hover:text-white cursor-pointer flex items-center gap-3 p-3"><span>🏠</span> Home</li>
+                <li onclick="window.location.href='blocker.html'" class="hover:text-white cursor-pointer flex items-center gap-3 p-3"><span>🚫</span> Block Apps</li>
+                <li onclick="window.location.href='stopwatch.html'" class="hover:text-white cursor-pointer flex items-center gap-3 p-3"><span>⏱️</span> Stopwatch</li>
+                <li class="bg-indigo-600/20 p-3 rounded-xl text-indigo-400 font-bold flex items-center gap-3"><span>📅</span> Daily Schedule</li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <header class="flex justify-between items-end mb-10">
+            <div>
+                <h1 class="text-3xl font-bold">Today's Schedule 📅</h1>
+                <p class="text-gray-400 mt-2">Plan your day, conquer your goals.</p>
+            </div>
+            <div class="flex gap-4">
+                <button onclick="addRow()" class="bg-gray-800 hover:bg-gray-700 px-6 py-2 rounded-full font-bold transition border border-gray-600">+ Add Task</button>
+                <button onclick="saveSchedule()" class="bg-indigo-600 hover:bg-indigo-500 px-8 py-2 rounded-full font-bold shadow-lg shadow-indigo-500/20 transition">Save Plan</button>
+            </div>
+        </header>
+
+        <div class="glass rounded-3xl overflow-hidden border border-gray-800">
+            <div class="grid grid-cols-12 bg-indigo-600/10 p-5 font-bold text-indigo-400 border-b border-gray-800">
+                <div class="col-span-3">Time Slot</div>
+                <div class="col-span-6">Subject / Task</div>
+                <div class="col-span-2 text-center">Done</div>
+                <div class="col-span-1"></div>
+            </div>
+
+            <div id="scheduleTable" class="divide-y divide-gray-800">
+                </div>
+        </div>
+
+        <div class="mt-10 p-6 bg-indigo-900/10 border border-indigo-500/20 rounded-2xl italic text-center text-gray-400">
+            "A goal without a plan is just a wish."
+        </div>
+    </main>
+
+    <script>
+        // Load data on start
+        window.onload = () => {
+            const savedData = JSON.parse(localStorage.getItem('myDailySchedule'));
+            if (savedData && savedData.length > 0) {
+                savedData.forEach(item => addRow(item.time, item.text, item.done));
+            } else {
+                // Default rows if empty
+                addRow("06:00 AM - 08:00 AM", "");
+                addRow("09:00 AM - 11:00 AM", "");
+            }
+        };
+
+        function addRow(time = "00:00 - 00:00", text = "", done = false) {
+            const table = document.getElementById('scheduleTable');
+            const row = document.createElement('div');
+            row.className = "grid grid-cols-12 p-5 items-center schedule-row hover:bg-white/5 transition";
+            
+            row.innerHTML = `
+                <div class="col-span-3">
+                    <input type="text" value="${time}" class="time-input" placeholder="Set Time">
+                </div>
+                <div class="col-span-6">
+                    <input type="text" value="${text}" class="task-input ${done ? 'task-done' : ''}" placeholder="Enter task..." oninput="updateStyle(this)">
+                </div>
+                <div class="col-span-2 text-center">
+                    <input type="checkbox" ${done ? 'checked' : ''} class="w-5 h-5 accent-indigo-500 cursor-pointer" onchange="toggleTask(this)">
+                </div>
+                <div class="col-span-1 text-right">
+                    <span class="delete-btn font-bold" onclick="this.parentElement.parentElement.remove()">✕</span>
+                </div>
+            `;
+            table.appendChild(row);
+        }
+
+        function toggleTask(checkbox) {
+            const input = checkbox.parentElement.parentElement.querySelector('.task-input');
+            if (checkbox.checked) {
+                input.classList.add('task-done');
+            } else {
+                input.classList.remove('task-done');
+            }
+        }
+
+        function saveSchedule() {
+            const rows = document.querySelectorAll('.schedule-row');
+            const data = [];
+
+            rows.forEach(row => {
+                data.push({
+                    time: row.querySelector('.time-input').value,
+                    text: row.querySelector('.task-input').value,
+                    done: row.querySelector('input[type="checkbox"]').checked
+                });
+            });
+
+            localStorage.setItem('myDailySchedule', JSON.stringify(data));
+            alert("Schedule saved! Your progress is secured.");
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Connect Gard | Join the Movement</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .glass { background: rgba(17, 24, 39, 0.8); backdrop-filter: blur(10px); }
+        input, select { background: #1f2937; border: 1px solid #374151; color: white; }
+    </style>
+</head>
+<body class="bg-black text-white min-h-screen flex items-center justify-center p-6">
+
+    <div class="glass border border-gray-800 w-full max-w-md p-8 rounded-3xl shadow-2xl">
+        <div class="text-center mb-8">
+            <h1 id="authTitle" class="text-3xl font-bold text-indigo-500">Welcome Back</h1>
+            <p id="authSub" class="text-gray-400 mt-2">Login to manage your time</p>
+        </div>
+
+        <form id="authForm" class="space-y-4">
+            <input type="text" id="userId" placeholder="User ID" class="w-full h-12 px-6 rounded-full outline-none focus:border-indigo-500" required>
+            
+            <div id="regFields" class="hidden space-y-4">
+                <input type="text" id="userName" placeholder="Full Name" class="w-full h-12 px-6 rounded-full outline-none">
+                
+                <select id="education" class="w-full h-12 px-6 rounded-full outline-none">
+                    <option value="" disabled selected>Select Education</option>
+                    <option value="school">School</option>
+                    <option value="college">College</option>
+                    <option value="competitive">Competitive Exam</option>
+                </select>
+
+                <div id="schoolBox" class="hidden">
+                    <select id="schoolClass" class="w-full h-12 px-6 rounded-full outline-none border-indigo-900">
+                        <option value="" disabled selected>Which Class?</option>
+                        </select>
+                </div>
+
+                <div id="collegeBox" class="hidden">
+                    <select id="faculty" class="w-full h-12 px-6 rounded-full outline-none border-indigo-900">
+                        <option value="" disabled selected>Select Faculty/Course</option>
+                        <option>BCA</option><option>MCA</option><option>MBA</option>
+                        <option>BBA</option><option>BCS</option><option>B.Tech</option>
+                        <option>Computer Science</option><option>Other</option>
+                    </select>
+                </div>
+
+                <div class="px-4 py-2 bg-gray-800 rounded-2xl">
+                    <p class="text-xs text-gray-400 mb-2">Interested in controlling screen time?</p>
+                    <div class="flex gap-4">
+                        <label class="text-sm"><input type="radio" name="screenTime" value="Yes" checked> Yes</label>
+                        <label class="text-sm"><input type="radio" name="screenTime" value="No"> No</label>
+                    </div>
+                </div>
+            </div>
+
+            <input type="password" id="password" placeholder="Password" class="w-full h-12 px-6 rounded-full outline-none focus:border-indigo-500" required>
+
+            <button type="submit" id="mainBtn" class="w-full h-12 bg-indigo-600 hover:bg-indigo-500 rounded-full font-bold transition mt-4">Login</button>
+        </form>
+
+        <p class="text-center mt-6 text-sm text-gray-400">
+            <span id="toggleText">Don't have an account?</span>
+            <button onclick="toggleAuth()" class="text-indigo-400 hover:underline ml-1">Click here</button>
+        </p>
+    </div>
+
+    <script>
+        let isLogin = true;
+
+        // Populate School Classes
+        const schoolSelect = document.getElementById('schoolClass');
+        for(let i=1; i<=10; i++) {
+            let opt = document.createElement('option');
+            opt.value = i; opt.innerHTML = `Class ${i}`;
+            schoolSelect.appendChild(opt);
+        }
+
+        // Handle Dynamic Dropdowns
+        document.getElementById('education').addEventListener('change', function() {
+            document.getElementById('schoolBox').classList.toggle('hidden', this.value !== 'school');
+            document.getElementById('collegeBox').classList.toggle('hidden', this.value !== 'college');
+        });
+
+        function toggleAuth() {
+            isLogin = !isLogin;
+            document.getElementById('authTitle').innerText = isLogin ? "Welcome Back" : "Create Account";
+            document.getElementById('mainBtn').innerText = isLogin ? "Login" : "Register";
+            document.getElementById('regFields').classList.toggle('hidden', isLogin);
+        }
+
+        document.getElementById('authForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            if(!isLogin) {
+                // Save User Data (Registration)
+                const userObj = {
+                    uid: document.getElementById('userId').value,
+                    name: document.getElementById('userName').value,
+                    pass: document.getElementById('password').value,
+                    edu: document.getElementById('education').value
+                };
+                localStorage.setItem('user_' + userObj.uid, JSON.stringify(userObj));
+                alert("Registration Successful! Please Login.");
+                toggleAuth();
+            } else {
+                // Simple Login Check
+                const uid = document.getElementById('userId').value;
+                const pass = document.getElementById('password').value;
+                const stored = JSON.parse(localStorage.getItem('user_'+uid));
+                
+                if(stored && stored.pass === pass) {
+                    localStorage.setItem('isLoggedIn', 'true');
+                    window.location.href = 'home.html';
+                } else {
+                    alert("Invalid Credentials");
+                }
+            }
+        });
+    </script>
+</body>
+</html>

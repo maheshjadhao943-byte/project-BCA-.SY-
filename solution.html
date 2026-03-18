@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Connect Gard | Career Solutions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), 
+                        url('background.png') no-repeat center center fixed;
+            background-size: cover;
+        }
+        .sidebar { 
+            width: 260px; height: 100vh; position: fixed; 
+            background: rgba(17, 24, 39, 0.95); backdrop-filter: blur(10px);
+            border-right: 1px solid #1f2937; 
+        }
+        .main-content { margin-left: 260px; padding: 40px; }
+        .roadmap-card { 
+            background: rgba(31, 41, 55, 0.6); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+        .roadmap-card::before {
+            content: ''; position: absolute; left: -21px; top: 50%;
+            width: 12px; height: 12px; background: #6366f1;
+            border-radius: 50%; box-shadow: 0 0 10px #6366f1;
+        }
+        .roadmap-line { border-left: 2px dashed #374151; margin-left: 20px; }
+    </style>
+</head>
+<body class="text-white">
+
+    <nav class="sidebar p-6 flex flex-col justify-between">
+        <div>
+            <div class="flex items-center gap-3 mb-10">
+                <img src="logo.png" alt="Logo" class="w-10 h-10 object-contain">
+                <h2 class="font-bold text-xl tracking-tight text-indigo-400">Connect Gard</h2>
+            </div>
+            <ul class="space-y-4 text-gray-400">
+                <li onclick="window.location.href='home.html'" class="hover:text-white cursor-pointer flex items-center gap-3 p-3"><span>🏠</span> Home</li>
+                <li onclick="window.location.href='blocker.html'" class="hover:text-white cursor-pointer flex items-center gap-3 p-3"><span>🚫</span> Block Apps</li>
+                <li onclick="window.location.href='schedule.html'" class="hover:text-white cursor-pointer flex items-center gap-3 p-3"><span>📅</span> Schedule</li>
+                <li onclick="window.location.href='library.html'" class="hover:text-white cursor-pointer flex items-center gap-3 p-3"><span>📚</span> Library</li>
+                <li class="hover:text-white cursor-pointer flex items-center gap-3 bg-indigo-600/20 p-3 rounded-xl text-indigo-400 font-bold"><span>🚀</span> Career Solutions</li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <header class="mb-10">
+            <h1 class="text-3xl font-bold">Career Roadmaps 🚀</h1>
+            <p id="roadmapSubtitle" class="text-gray-400 mt-2">Personalized success paths based on your profile.</p>
+        </header>
+
+        <div class="roadmap-line space-y-8 pb-10">
+            <div id="roadmapContainer" class="space-y-8"></div>
+        </div>
+
+        <div class="mt-6 p-8 bg-indigo-600/10 border border-indigo-500/30 rounded-3xl">
+            <h3 class="text-xl font-bold text-indigo-400 mb-2">Expert Tip 💡</h3>
+            <p class="text-gray-300">Consistency beats intensity. Use the <strong>Stopwatch</strong> tool to track your deep work hours as you follow these career paths.</p>
+        </div>
+    </main>
+
+    <script>
+        const careerPaths = {
+            school: [
+                { title: "Science Stream", desc: "For those interested in Engineering (JEE) or Medical (NEET) fields." },
+                { title: "Commerce Stream", desc: "Ideal for future CA, CS, or Business Management professionals." },
+                { title: "Arts & Humanities", desc: "Leading to careers in Law, Design, Civil Services, or Psychology." }
+            ],
+            college: [
+                { title: "Full Stack Developer", desc: "Focus on MERN Stack, Data Structures, and Cloud Computing." },
+                { title: "Data Science & AI", desc: "Master Python, Statistics, and Machine Learning models." },
+                { title: "Core MBA Path", desc: "Preparation for CAT/GMAT and Leadership roles in MNCs." }
+            ],
+            competitive: [
+                { title: "UPSC / Civil Services", desc: "A detailed 1-year roadmap for GS and Optional subjects." },
+                { title: "Banking (IBPS/SBI)", desc: "Focus on Speed Math, Reasoning, and Financial Awareness." },
+                { title: "SSC / Government Jobs", desc: "Step-by-step guide for Tier 1 and Tier 2 preparations." }
+            ]
+        };
+
+        window.onload = () => {
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            const container = document.getElementById('roadmapContainer');
+            
+            if (user) {
+                const paths = careerPaths[user.edu] || careerPaths.school;
+                
+                paths.forEach((path, index) => {
+                    container.innerHTML += `
+                        <div class="roadmap-card ml-8 p-6 rounded-2xl shadow-lg">
+                            <span class="text-xs font-bold text-indigo-500 uppercase tracking-widest">Step ${index + 1}</span>
+                            <h3 class="text-xl font-bold mt-1">${path.title}</h3>
+                            <p class="text-gray-400 mt-2 text-sm leading-relaxed">${path.desc}</p>
+                            <button class="mt-4 text-sm bg-indigo-600/20 hover:bg-indigo-600 px-4 py-2 rounded-lg transition">View Full Roadmap</button>
+                        </div>
+                    `;
+                });
+            } else {
+                container.innerHTML = `<p class="ml-8 text-red-400">Please login to view your personalized career solutions.</p>`;
+            }
+        }
+    </script>
+</body>
+</html>
